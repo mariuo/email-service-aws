@@ -12,15 +12,34 @@ import software.amazon.awssdk.services.ses.model.*;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+/**
+ * The type Amazon email sender, implements the interface.
+ */
 @ApplicationScoped
 public class AmazonEmailSender implements EmailSenderGateway {
     private static final Logger LOG = LoggerFactory.getLogger(AmazonEmailSender.class);
     private final SesAsyncClient ses;
+
+    /**
+     * Instantiates a new Amazon email sender.
+     *
+     * @param sesAsyncClient the ses async client
+     * @param ses            the ses
+     */
     @Inject
     public AmazonEmailSender(SesAsyncClient sesAsyncClient, SesAsyncClient ses) {
         this.ses = ses;
     }
 
+    /**
+     * Method to implement the request to SES Amazon.
+     *
+     * @param to to
+     * @param subject subject
+     * @param body body
+     * @return {@link String}
+     * @see String
+     */
     @Override
     public String sendEmail(String to, String subject, String body) {
             var ses = SesClient.builder().build();
@@ -45,15 +64,12 @@ public class AmazonEmailSender implements EmailSenderGateway {
                             .subject(sub -> sub.data(subject))
                             .body(b -> b.text(txt -> txt.data(body)))));
             return "Enviou";
-//        try{
-////            return sendEmailRespStr = this.ses.sendEmail(sendEmailReq).toString();
-//
-//
-//        }catch (Exception exception){
-//            throw new EmailServiceException("Failure while sending email", exception);
-//
-//        }
-//        return sendEmailRespStr;
-
+/*        try{
+            return sendEmailRespStr = this.ses.sendEmail(sendEmailReq).toString();
+        }catch (Exception exception){
+            throw new EmailServiceException("Failure while sending email", exception);
+        }
+        return sendEmailRespStr;
+*/
     }
 }
